@@ -1105,6 +1105,25 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
 
 <a href="tel:+375445444300" class="fab-call" aria-label="Позвонить"><span class="fab-ring"></span>📞</a>
 
+<div id="debug-badge" style="position:fixed;bottom:0;left:0;right:0;z-index:99999;background:red;color:#fff;font-size:10px;padding:4px 6px;font-family:monospace;line-height:1.4;word-break:break-all"></div>
+<script>
+(function(){
+  const b = document.getElementById('debug-badge');
+  function upd(){
+    const overflowers = [];
+    document.querySelectorAll('body *').forEach(el=>{
+      const r = el.getBoundingClientRect();
+      if(r.right > window.innerWidth + 2 || r.left < -2){
+        overflowers.push((el.id||el.className||el.tagName)+'@L'+Math.round(r.left)+'R'+Math.round(r.right));
+      }
+    });
+    b.textContent = 'win:'+window.innerWidth+' doc:'+document.documentElement.scrollWidth+' bodySW:'+document.body.scrollWidth+' pageX:'+(window.scrollX||window.pageXOffset)+' | '+overflowers.slice(0,6).join(' , ');
+  }
+  function loop(){ upd(); requestAnimationFrame(loop); }
+  loop();
+})();
+</script>
+
 
 <script>
 // ── DATA ──
