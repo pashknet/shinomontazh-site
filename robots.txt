@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pashknet.github.io/shinomontazh-site/sitemap.xml
