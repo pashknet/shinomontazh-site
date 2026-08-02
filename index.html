@@ -182,21 +182,6 @@ canvas#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-even
 .why-card h4{font-size:15px;font-weight:800;margin-bottom:8px}
 .why-card p{font-size:13px;color:var(--muted);line-height:1.65}
 
-/* ── REVIEWS ── */
-.reviews-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.review-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:24px}
-.review-stars{color:#f5a623;font-size:16px;margin-bottom:10px;letter-spacing:2px}
-.review-text{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:14px;font-style:italic}
-.review-author{display:flex;align-items:center;gap:10px}
-.review-avatar{width:38px;height:38px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:#111;flex-shrink:0}
-.review-name{font-size:13px;font-weight:700}
-.review-car{font-size:11px;color:var(--muted)}
-.reviews-badge{display:flex;align-items:center;gap:24px;background:var(--dark);border-radius:10px;padding:24px 32px;margin-bottom:40px}
-.rb-score{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--green);line-height:1}
-.rb-info{color:rgba(255,255,255,0.7);font-size:13px}
-.rb-stars{color:#f5a623;font-size:22px;letter-spacing:3px;display:block;margin-bottom:4px}
-.rb-cta{margin-left:auto}
-
 /* ── PRICE TABLE ── */
 .price-tabs{display:flex;gap:4px;margin-bottom:32px;background:var(--off);border-radius:7px;padding:4px;width:fit-content;border:1px solid var(--border)}
 .ptab{background:none;border:none;color:var(--muted);font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;padding:9px 20px;border-radius:5px;cursor:pointer;transition:all .2s}
@@ -348,9 +333,10 @@ table.calc-table td{padding:12px 18px;border-top:1px solid var(--border);font-we
 .cinfo-row strong{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:4px}
 .cinfo-row a,.cinfo-row span{font-size:15px;color:var(--white);text-decoration:none}
 .cinfo-row a{color:var(--green)}
-.map-placeholder{margin-top:24px;background:rgba(255,255,255,0.05);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:1px solid rgba(255,255,255,0.08)}
-.map-placeholder span{font-size:28px}
-.map-placeholder p{font-size:12px;color:rgba(255,255,255,0.3);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.map-embed{margin-top:24px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
+.map-embed iframe{display:block;width:100%;height:200px;border:0}
+.map-open-link{display:block;text-align:center;padding:11px;background:rgba(255,255,255,0.05);color:var(--green);font-size:12px;font-weight:800;text-decoration:none;text-transform:uppercase;letter-spacing:.8px;transition:background .2s}
+.map-open-link:hover{background:rgba(255,255,255,0.1)}
 .booking-form-card{background:var(--off);border-radius:12px;padding:36px;border:1.5px solid var(--border)}
 .booking-form-card h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:4px}
 .booking-form-card>p{font-size:13px;color:var(--muted);margin-bottom:24px}
@@ -405,7 +391,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   .hero-inner{grid-template-columns:minmax(0,1fr);gap:32px}
   .hero-card{display:none}
   .srv-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .why-grid,.reviews-grid,.blog-grid,.seo-grid{grid-template-columns:minmax(0,1fr)}
+  .why-grid,.blog-grid,.seo-grid{grid-template-columns:minmax(0,1fr)}
   .contact-grid,.svc-body-inner,.bform-row,.hf-row{grid-template-columns:minmax(0,1fr)}
   .gal-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto}
   .gal-item:first-child{grid-column:span 2}
@@ -414,9 +400,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   .calc-inputs{grid-template-columns:minmax(0,1fr)}
   .calc-vs{flex-direction:row;padding-top:0}
   .fab-call{bottom:16px;right:16px;width:52px;height:52px;font-size:20px}
-  .reviews-badge{flex-direction:column;align-items:flex-start;gap:16px}
-  .rb-cta{margin-left:0;width:100%}
-  .rb-cta .btn{width:100%;justify-content:center}
 }
 </style>
 </head>
@@ -447,7 +430,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
       <li><button onclick="goTo('services')" data-page="services">Услуги</button></li>
       <li><button onclick="goTo('prices')" data-page="prices">Цены</button></li>
       <li><button onclick="goTo('calculator')" data-page="calculator">Калькулятор</button></li>
-      <li><button onclick="goTo('reviews')" data-page="reviews">Отзывы</button></li>
       <li><button onclick="goTo('blog')" data-page="blog">Блог</button></li>
       <li><button onclick="goTo('contacts')" data-page="contacts">Контакты</button></li>
     </ul>
@@ -464,7 +446,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   <button data-page="services" onclick="mmGo('services')">Услуги</button>
   <button data-page="prices" onclick="mmGo('prices')">Цены</button>
   <button data-page="calculator" onclick="mmGo('calculator')">Калькулятор</button>
-  <button data-page="reviews" onclick="mmGo('reviews')">Отзывы</button>
   <button data-page="blog" onclick="mmGo('blog')">Блог</button>
   <button data-page="contacts" onclick="mmGo('contacts')">Контакты</button>
   <button class="btn btn-green" onclick="mmGo('contacts')">Записаться →</button>
@@ -625,17 +606,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
     </div>
   </div>
 
-  <!-- REVIEWS PREVIEW -->
-  <div class="section">
-    <div class="wrap">
-      <div class="section-tag">Отзывы клиентов</div>
-      <div class="section-h">ЧТО ГОВОРЯТ О НАС</div>
-      <div class="reviews-grid" id="home-reviews"></div>
-      <div style="margin-top:32px;text-align:center">
-        <button class="btn btn-outline" onclick="goTo('reviews')">Все отзывы →</button>
-      </div>
-    </div>
-  </div>
 
   <!-- BLOG PREVIEW -->
   <div class="section section-alt">
@@ -996,22 +966,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   </div>
 </div>
 
-<!-- ══════════ REVIEWS ══════════ -->
-<div class="page" id="page-reviews">
-  <div class="section">
-    <div class="wrap">
-      <div class="section-tag">Мнения клиентов</div>
-      <div class="section-h">ОТЗЫВЫ</div>
-      <div class="reviews-badge">
-        <div class="rb-score">4.9</div>
-        <div class="rb-info"><span class="rb-stars">★★★★★</span>Средняя оценка по отзывам<br><span style="font-size:12px;color:rgba(255,255,255,0.4)">На основании реальных отзывов клиентов</span></div>
-        <div class="rb-cta"><button class="btn btn-green" onclick="goTo('contacts')">Оставить отзыв</button></div>
-      </div>
-      <div class="reviews-grid" id="all-reviews"></div>
-    </div>
-  </div>
-</div>
-
 <!-- ══════════ BLOG ══════════ -->
 <div class="page" id="page-blog">
   <div class="section">
@@ -1060,9 +1014,9 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
           <div class="cinfo-row"><div class="cinfo-icon">📞</div><div><strong>Телефон</strong><a href="tel:+375445444300">+375 44 544-43-00</a></div></div>
           <div class="cinfo-row"><div class="cinfo-icon">🕐</div><div><strong>Режим работы</strong><span>Пн–Сб 8:00–20:00 / Вс 9:00–18:00</span></div></div>
           <div class="cinfo-row"><div class="cinfo-icon">💳</div><div><strong>Оплата</strong><span>Наличные и банковская карта</span></div></div>
-          <div class="map-placeholder">
-            <span>🗺️</span>
-            <p>Карта — добавьте iframe Google Maps</p>
+          <div class="map-embed">
+            <iframe src="https://yandex.ru/map-widget/v1/?ll=27.5467%2C53.9121&z=16&pt=27.5467,53.9121,pm2rdm" loading="lazy" title="ШинПрофСтиль на карте — ул. Гурского, 34"></iframe>
+            <a class="map-open-link" href="https://yandex.by/maps/?ll=27.5467%2C53.9121&z=16&pt=27.5467,53.9121" target="_blank" rel="noopener">Открыть в Яндекс.Картах →</a>
           </div>
         </div>
         <div class="booking-form-card">
@@ -1114,15 +1068,6 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
 
 <script>
 // ── DATA ──
-const REVIEWS = [
-  {name:'Андрей К.',car:'Toyota Camry',stars:5,text:'Менял шины на зиму — быстро, без очереди, диски не поцарапали. Мастер сам заметил, что один диск немного деформирован, предложил правку. Сделали тут же. Доволен.'},
-  {name:'Ольга М.',car:'VW Tiguan',stars:5,text:'Обратилась с боковым порезом — думала шина под замену. Сделали горячую вулканизацию за 35 р. Уже второй сезон езжу — держит отлично. Честные ребята.'},
-  {name:'Сергей Д.',car:'BMW 5-series',stars:5,text:'Правил литой диск после ямы. Сделали аккуратно, без сварных швов снаружи. Проверил на стенде — биение ноль. Рекомендую всем у кого литьё.'},
-  {name:'Наталья В.',car:'Hyundai Tucson',stars:5,text:'Заправляла кондиционер — перестал дуть холодным. Нашли небольшую утечку, устранили и заправили. Теперь дует как новый. Цена адекватная.'},
-  {name:'Дмитрий П.',car:'Skoda Octavia',stars:4,text:'Делал сезонную замену. Всё чётко, 25 минут и готово. Единственное — пришлось немного подождать хотя был по записи. Но мастера работают качественно.'},
-  {name:'Ирина Л.',car:'Kia Sportage',stars:5,text:'Езжу сюда уже 3 года. Всегда честно говорят что нужно, а что — нет. Однажды сказали что правка нецелесообразна и лучше взять б/у диск. Вот это честность!'},
-];
-
 const ARTICLES = [
   {id:'winter-tires',tag:'Сезон',emoji:'❄️',bg:'blog-img-1',date:'15 октября 2025',title:'Когда менять летние шины на зимние: главное правило',lead:'Многие ориентируются на дату, но правильнее следить за температурой. Объясняем почему и что будет если не успеть.',body:`
 <h2>Правило +7°C — не миф</h2>
@@ -1174,20 +1119,6 @@ const ARTICLES = [
 ];
 
 // ── RENDER HELPERS ──
-function renderReviews(containerId, count){
-  const c = document.getElementById(containerId);
-  if(!c) return;
-  c.innerHTML = REVIEWS.slice(0, count||REVIEWS.length).map(r=>`
-    <div class="review-card">
-      <div class="review-stars">${'★'.repeat(r.stars)}</div>
-      <div class="review-text">"${r.text}"</div>
-      <div class="review-author">
-        <div class="review-avatar">${r.name[0]}</div>
-        <div><div class="review-name">${r.name}</div><div class="review-car">${r.car}</div></div>
-      </div>
-    </div>`).join('');
-}
-
 function renderBlogCards(containerId, count){
   const c = document.getElementById(containerId);
   if(!c) return;
@@ -1419,8 +1350,6 @@ function bookingSubmit(e){
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded',()=>{
-  renderReviews('home-reviews', 3);
-  renderReviews('all-reviews');
   renderBlogCards('home-blog', 3);
   renderBlogCards('all-blog');
   const di = document.getElementById('b-date');
