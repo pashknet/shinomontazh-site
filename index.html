@@ -34,8 +34,8 @@
   --dark:#1e201e;--darker:#141614;--charcoal:#2a2d2a;
   --white:#fff;--off:#f7f8f7;--text:#222;--muted:#666;--border:#e8ece8;
 }
-html{scroll-behavior:smooth}
-body{font-family:'Manrope',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+body{font-family:'Manrope',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;max-width:100%;position:relative}
 
 /* ── TOP BAR ── */
 .topbar{background:var(--dark);color:rgba(255,255,255,0.65);font-size:12px;font-weight:600;letter-spacing:.5px;padding:9px 0;border-bottom:2px solid var(--green)}
@@ -143,6 +143,7 @@ canvas#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-even
 .hf-submit:hover{background:var(--green-dark)}
 .hf-note{font-size:11px;color:var(--muted);text-align:center}
 .hf-success{display:none;background:#f0f9e8;border:1px solid #b5dfa0;border-radius:6px;padding:14px;text-align:center;font-size:14px;font-weight:700;color:var(--green-dark)}
+.hf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
 /* ── TRUST STRIP ── */
 .trust-strip{background:var(--green);padding:18px 0}
@@ -496,10 +497,12 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
       <div class="hero-card reveal">
         <h3>Быстрая запись</h3>
         <p>Оставьте заявку — перезвоним за 10 минут</p>
-        <div class="hf">
-          <input id="h-name" type="text" placeholder="Ваше имя">
-          <input id="h-phone" type="tel" placeholder="+375 XX XXX-XX-XX">
-          <select id="h-service">
+        <form class="hf" name="quick-booking" method="POST" data-netlify="true" netlify-honeypot="bf-hp" onsubmit="return quickBook(event)">
+          <input type="hidden" name="form-name" value="quick-booking">
+          <input type="text" name="bf-hp" class="hf-hp" tabindex="-1" autocomplete="off">
+          <input id="h-name" name="name" type="text" placeholder="Ваше имя">
+          <input id="h-phone" name="phone" type="tel" placeholder="+375 XX XXX-XX-XX">
+          <select id="h-service" name="service">
             <option value="">Выберите услугу...</option>
             <option>Шиномонтаж / сезонная замена</option>
             <option>Правка стального диска</option>
@@ -508,18 +511,18 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
             <option>Вулканизация</option>
           </select>
           <div class="hf-row">
-            <input id="h-date" type="date">
-            <select id="h-time">
+            <input id="h-date" name="date" type="date">
+            <select id="h-time" name="time">
               <option>8:00</option><option>9:00</option><option>10:00</option>
               <option>11:00</option><option>12:00</option><option>13:00</option>
               <option>14:00</option><option>15:00</option><option>16:00</option>
               <option>17:00</option><option>18:00</option>
             </select>
           </div>
-          <button class="hf-submit" onclick="quickBook()">Записаться →</button>
+          <button class="hf-submit" type="submit">Записаться →</button>
           <div class="hf-note">Перезвоним для подтверждения в течение 10 минут</div>
           <div class="hf-success" id="hf-success">✅ Заявка принята! Скоро перезвоним.</div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -1053,13 +1056,15 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
         <div class="booking-form-card">
           <h3>Онлайн-запись</h3>
           <p>Оставьте заявку — перезвоним в течение 10 минут</p>
-          <div class="bform">
+          <form class="bform" name="full-booking" method="POST" data-netlify="true" netlify-honeypot="bf-hp2" onsubmit="return bookingSubmit(event)">
+            <input type="hidden" name="form-name" value="full-booking">
+            <input type="text" name="bf-hp2" class="hf-hp" tabindex="-1" autocomplete="off">
             <div class="bform-row">
-              <div class="bfield"><label>Имя</label><input id="b-name" type="text" placeholder="Иван"></div>
-              <div class="bfield"><label>Телефон</label><input id="b-phone" type="tel" placeholder="+375 XX XXX-XX-XX"></div>
+              <div class="bfield"><label>Имя</label><input id="b-name" name="name" type="text" placeholder="Иван"></div>
+              <div class="bfield"><label>Телефон</label><input id="b-phone" name="phone" type="tel" placeholder="+375 XX XXX-XX-XX"></div>
             </div>
             <div class="bfield"><label>Услуга</label>
-              <select id="b-service">
+              <select id="b-service" name="service">
                 <option value="">Выберите услугу...</option>
                 <option>Шиномонтаж / сезонная замена</option>
                 <option>Правка стального диска</option>
@@ -1069,9 +1074,9 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               </select>
             </div>
             <div class="bform-row">
-              <div class="bfield"><label>Дата</label><input id="b-date" type="date"></div>
+              <div class="bfield"><label>Дата</label><input id="b-date" name="date" type="date"></div>
               <div class="bfield"><label>Время</label>
-                <select id="b-time">
+                <select id="b-time" name="time">
                   <option>8:00</option><option>9:00</option><option>10:00</option>
                   <option>11:00</option><option>12:00</option><option>13:00</option>
                   <option>14:00</option><option>15:00</option><option>16:00</option>
@@ -1079,11 +1084,11 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
                 </select>
               </div>
             </div>
-            <div class="bfield"><label>Авто</label><input type="text" placeholder="напр. VW Golf, R16"></div>
-            <div class="bfield"><label>Комментарий</label><textarea placeholder="Опишите проблему..."></textarea></div>
-            <button class="bsubmit" onclick="bookingSubmit()">Отправить заявку →</button>
+            <div class="bfield"><label>Авто</label><input id="b-car" name="car" type="text" placeholder="напр. VW Golf, R16"></div>
+            <div class="bfield"><label>Комментарий</label><textarea id="b-comment" name="comment" placeholder="Опишите проблему..."></textarea></div>
+            <button class="bsubmit" type="submit">Отправить заявку →</button>
             <div class="b-success" id="b-success">✅ Заявка принята! Перезвоним в течение 10 минут.</div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -1347,21 +1352,41 @@ function startCounters(){
 }
 
 // ── FORMS ──
-function quickBook(){
+function encodeFormData(form){
+  return new URLSearchParams(new FormData(form)).toString();
+}
+function submitToNetlify(form){
+  return fetch('/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: encodeFormData(form)
+  });
+}
+function quickBook(e){
+  e.preventDefault();
+  const form = e.target;
   const name = document.getElementById('h-name').value.trim();
   const phone = document.getElementById('h-phone').value.trim();
   const svc = document.getElementById('h-service').value;
-  if(!name||!phone||!svc){alert('Заполните имя, телефон и выберите услугу');return;}
-  document.getElementById('hf-success').style.display='block';
-  document.querySelector('.hf-submit').style.display='none';
+  if(!name||!phone||!svc){alert('Заполните имя, телефон и выберите услугу');return false;}
+  submitToNetlify(form).finally(()=>{
+    document.getElementById('hf-success').style.display='block';
+    document.querySelector('.hf-submit').style.display='none';
+  });
+  return false;
 }
-function bookingSubmit(){
+function bookingSubmit(e){
+  e.preventDefault();
+  const form = e.target;
   const name = document.getElementById('b-name').value.trim();
   const phone = document.getElementById('b-phone').value.trim();
   const svc = document.getElementById('b-service').value;
-  if(!name||!phone||!svc){alert('Заполните имя, телефон и выберите услугу');return;}
-  document.getElementById('b-success').style.display='block';
-  document.querySelector('.bsubmit').style.display='none';
+  if(!name||!phone||!svc){alert('Заполните имя, телефон и выберите услугу');return false;}
+  submitToNetlify(form).finally(()=>{
+    document.getElementById('b-success').style.display='block';
+    document.querySelector('.bsubmit').style.display='none';
+  });
+  return false;
 }
 
 // ── INIT ──
