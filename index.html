@@ -63,6 +63,20 @@ nav{position:sticky;top:0;z-index:200;background:rgba(20,22,20,0.82);backdrop-fi
 .nav-cta{background:var(--green);color:#111;font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:10px 20px;border-radius:4px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap}
 .nav-cta:hover{background:var(--green-dark)}
 
+/* ── MOBILE NAV ── */
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;background:none;border:none;cursor:pointer;padding:0;flex-shrink:0}
+.nav-burger span{display:block;width:100%;height:2px;background:var(--white);border-radius:2px;transition:all .3s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:350;background:var(--darker);display:flex;flex-direction:column;padding:100px 32px 40px;transform:translateX(100%);transition:transform .35s ease;overflow-y:auto;visibility:hidden}
+.mobile-menu.open{transform:translateX(0);visibility:visible}
+.mobile-menu button{background:none;border:none;color:rgba(255,255,255,0.7);font-family:'Manrope',sans-serif;font-size:20px;font-weight:700;text-align:left;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);cursor:pointer}
+.mobile-menu button.active{color:var(--green)}
+.mobile-menu .btn{margin-top:28px;justify-content:center}
+.mm-contact{margin-top:auto;padding-top:24px;color:rgba(255,255,255,0.4);font-size:13px;line-height:1.8}
+.mm-contact a{color:var(--green);text-decoration:none}
+
 /* ── PAGE TRANSITIONS ── */
 #app{position:fixed;top:103px;left:0;right:0;bottom:0;overflow:hidden}
 .page{position:absolute;inset:0;overflow-y:auto;opacity:0;transform:translateY(28px);pointer-events:none;transition:opacity .4s ease,transform .4s ease;background:var(--white)}
@@ -366,9 +380,15 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+/* ── NAV BREAKPOINT (switches to burger before links collide with CTA) ── */
+@media(max-width:1080px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .nav-burger{display:flex}
+}
+
 /* ── MOBILE ── */
 @media(max-width:900px){
-  .nav-links{display:none}
   .hero-inner{grid-template-columns:1fr;gap:32px}
   .hero-card{display:none}
   .srv-cards{grid-template-columns:repeat(2,1fr)}
@@ -381,6 +401,9 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   .calc-inputs{grid-template-columns:1fr}
   .calc-vs{flex-direction:row;padding-top:0}
   .fab-call{bottom:16px;right:16px;width:52px;height:52px;font-size:20px}
+  .reviews-badge{flex-direction:column;align-items:flex-start;gap:16px}
+  .rb-cta{margin-left:0;width:100%}
+  .rb-cta .btn{width:100%;justify-content:center}
 }
 </style>
 </head>
@@ -416,8 +439,27 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
       <li><button onclick="goTo('contacts')" data-page="contacts">Контакты</button></li>
     </ul>
     <button class="nav-cta" onclick="goTo('contacts')">Записаться</button>
+    <button class="nav-burger" id="nav-burger" onclick="toggleMobileMenu()" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button data-page="home" onclick="mmGo('home')">Главная</button>
+  <button data-page="services" onclick="mmGo('services')">Услуги</button>
+  <button data-page="prices" onclick="mmGo('prices')">Цены</button>
+  <button data-page="calculator" onclick="mmGo('calculator')">Калькулятор</button>
+  <button data-page="reviews" onclick="mmGo('reviews')">Отзывы</button>
+  <button data-page="blog" onclick="mmGo('blog')">Блог</button>
+  <button data-page="contacts" onclick="mmGo('contacts')">Контакты</button>
+  <button class="btn btn-green" onclick="mmGo('contacts')">Записаться →</button>
+  <div class="mm-contact">
+    г. Минск, ул. Гурского, 34<br>
+    <a href="tel:+375445444300">+375 44 544-43-00</a><br>
+    Пн–Сб 8:00–20:00 · Вс 9:00–18:00
+  </div>
+</div>
 
 <div id="app">
 
@@ -702,6 +744,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
         <!-- ШИНОМОНТАЖ -->
         <div class="bpt-section">
           <div class="bpt-head"><span class="bpt-icon">🔧</span> Шиномонтаж</div>
+          <div class="bpt-scroll">
           <table class="bpt">
             <thead>
               <tr>
@@ -727,11 +770,13 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               <tr><td>Замена вентиля (ниппеля)</td><td class="pc" colspan="5">4 р. / шт.</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- ПРАВКА ДИСКОВ -->
         <div class="bpt-section">
           <div class="bpt-head"><span class="bpt-icon">⚙️</span> Правка дисков</div>
+          <div class="bpt-scroll">
           <table class="bpt">
             <thead>
               <tr>
@@ -751,11 +796,13 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               <tr><td>Диагностика биения диска</td><td class="pc" colspan="4">Бесплатно</td><td>При последующей правке</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- ВУЛКАНИЗАЦИЯ -->
         <div class="bpt-section">
           <div class="bpt-head"><span class="bpt-icon">🔥</span> Вулканизация и ремонт шин</div>
+          <div class="bpt-scroll">
           <table class="bpt">
             <thead>
               <tr>
@@ -774,6 +821,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               <tr><td>Диагностика грыжи / пореза</td><td class="pc" colspan="3">Бесплатно</td><td>—</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- КОНДИЦИОНЕРЫ -->
@@ -1166,10 +1214,21 @@ function goTo(id){
     next.scrollTop = 0;
     transitioning = false;
     current = id;
-    document.querySelectorAll('.nav-links button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+    document.querySelectorAll('.nav-links button,.mobile-menu button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
     initReveal(next);
     if(id==='home') startCounters();
   }, 380);
+}
+
+// ── MOBILE MENU ──
+function toggleMobileMenu(){
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('nav-burger').classList.toggle('open');
+}
+function mmGo(id){
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('nav-burger').classList.remove('open');
+  goTo(id);
 }
 
 // ── ACCORDION ──
