@@ -240,6 +240,7 @@ table.bpt tbody tr:hover td{background:var(--green-pale)}
 .calc-visual svg{max-width:420px;width:100%;height:auto}
 .calc-visual circle{transition:r .35s ease}
 .calc-results{background:var(--off);border-radius:10px;padding:4px;margin-bottom:24px;border:1.5px solid var(--border)}
+.calc-scroll{overflow-x:auto}
 table.calc-table{width:100%;border-collapse:collapse;font-size:13.5px}
 table.calc-table th{text-align:left;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:12px 18px}
 table.calc-table td{padding:12px 18px;border-top:1px solid var(--border);font-weight:600}
@@ -400,6 +401,8 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
   .calc-inputs{grid-template-columns:minmax(0,1fr)}
   .calc-vs{flex-direction:row;padding-top:0}
   .fab-call{bottom:16px;right:16px;width:52px;height:52px;font-size:20px}
+  table.calc-table{font-size:12px}
+  table.calc-table th,table.calc-table td{padding:10px 8px}
 }
 </style>
 </head>
@@ -934,6 +937,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
 
         <!-- RESULTS TABLE -->
         <div class="calc-results">
+          <div class="calc-scroll">
           <table class="calc-table">
             <thead>
               <tr><th>Параметр</th><th>Текущий</th><th>Новый</th><th>Изменение</th></tr>
@@ -947,6 +951,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               <tr><td>Погрешность спидометра</td><td colspan="2" style="text-align:center">—</td><td id="r-err" class="rdiff">—</td></tr>
             </tbody>
           </table>
+          </div>
           <div class="calc-warn" id="calc-warn" style="display:none"></div>
         </div>
 
