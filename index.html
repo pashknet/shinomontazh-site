@@ -26,6 +26,8 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько стоит сезонная замена шин в Минске?","acceptedAnswer":{"@type":"Answer","text":"Сезонная замена 4 колёс R13–R16 — от 60 р., R17–R20 — от 80 р. Цена включает снятие, монтаж, демонтаж и балансировку."}},{"@type":"Question","name":"Можно ли выпрямить литой диск?","acceptedAnswer":{"@type":"Answer","text":"Да, восстанавливаем геометрию литых дисков горячим и холодным методом. Стоимость — от 40 р. за диск."}},{"@type":"Question","name":"Как записаться на шиномонтаж в Минске?","acceptedAnswer":{"@type":"Answer","text":"Запишитесь онлайн на сайте или позвоните: +375 44 544-43-00. Адрес: Минск, ул. Гурского, 34."}},{"@type":"Question","name":"Делаете ли вы вулканизацию боковых порезов?","acceptedAnswer":{"@type":"Answer","text":"Да, горячая вулканизация боковых порезов любой сложности от 30 р."}}]}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1021,7 +1023,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
           <div class="cinfo-row"><div class="cinfo-icon">🕐</div><div><strong>Режим работы</strong><span>Пн–Сб 8:00–20:00 / Вс 9:00–18:00</span></div></div>
           <div class="cinfo-row"><div class="cinfo-icon">💳</div><div><strong>Оплата</strong><span>Наличные и банковская карта</span></div></div>
           <div class="map-embed">
-            <iframe src="https://yandex.ru/map-widget/v1/?ll=27.481827%2C53.882694&z=17&pt=27.481827,53.882694,pm2rdl" loading="lazy" title="ШинПрофСтиль на карте — ул. Гурского, 34"></iframe>
+            <iframe id="map-iframe" data-src="https://yandex.ru/map-widget/v1/?ll=27.481827%2C53.882694&z=17&pt=27.481827,53.882694,pm2rdl" loading="lazy" title="ШинПрофСтиль на карте — ул. Гурского, 34"></iframe>
             <a class="map-open-link" href="https://yandex.by/maps/?rtext=~53.882694,27.481827&rtt=auto" target="_blank" rel="noopener">Проложить маршрут →</a>
           </div>
         </div>
@@ -1173,6 +1175,7 @@ function goTo(id){
     document.querySelectorAll('.nav-links button,.mobile-menu button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
     initReveal(next);
     if(id==='home') startCounters();
+    if(id==='contacts') loadMapIframe();
   }, 280);
 }
 
@@ -1197,6 +1200,12 @@ function toggleMobileMenu(){
 function mmGo(id){
   closeMobileMenu();
   goTo(id);
+}
+
+// ── LAZY MAP ──
+function loadMapIframe(){
+  const f = document.getElementById('map-iframe');
+  if(f && !f.src && f.dataset.src) f.src = f.dataset.src;
 }
 
 // ── ACCORDION ──
@@ -1373,6 +1382,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 (function(){
   const canvas = document.getElementById('hero-canvas');
   if(!canvas) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const isSmall = window.innerWidth < 700;
+  const MAX_DROPS = isSmall ? 8 : 20;
+  const INIT_DROPS = isSmall ? 4 : 10;
   const ctx = canvas.getContext('2d');
   let W, H, drops=[], raf;
   function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
@@ -1403,10 +1416,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     return {x,y:-20,w,vy:0.45+Math.random()*0.8,alpha:0,alphaTarget:0.1+Math.random()*0.18,trail:[],life:0,maxLife:0};
   }
   resize(); window.addEventListener('resize',resize);
-  for(let i=0;i<10;i++){const d=mkDrop();d.y=Math.random()*H;d.alpha=d.alphaTarget*0.9;drops.push(d);}
+  for(let i=0;i<INIT_DROPS;i++){const d=mkDrop();d.y=Math.random()*H;d.alpha=d.alphaTarget*0.9;drops.push(d);}
   function tick(){
     ctx.clearRect(0,0,W,H);
-    if(Math.random()<0.02&&drops.length<20) drops.push(mkDrop());
+    if(Math.random()<0.02&&drops.length<MAX_DROPS) drops.push(mkDrop());
     drops=drops.filter(d=>{
       d.y+=d.vy;
       if(d.alpha<d.alphaTarget) d.alpha=Math.min(d.alphaTarget,d.alpha+0.003);
@@ -1423,7 +1436,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(h&&h.classList.contains('active')){if(!raf)tick();}
     else{cancelAnimationFrame(raf);raf=null;}
   }).observe(document.getElementById('page-home'),{attributes:true,attributeFilter:['class']});
-  tick();
+  function start(){ resize(); tick(); }
+  if(document.readyState==='complete') setTimeout(start, 300);
+  else window.addEventListener('load', ()=>setTimeout(start, 300));
 })();
 </script>
 </body>
