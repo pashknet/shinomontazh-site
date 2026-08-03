@@ -205,7 +205,7 @@ table.pt tbody tr:hover td{background:var(--green-pale)}
 .bpt-section:hover{box-shadow:0 10px 40px rgba(0,0,0,0.09)}
 .bpt-head{display:flex;align-items:center;gap:12px;padding:18px 24px;background:linear-gradient(90deg,var(--dark),var(--charcoal));color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px}
 .bpt-icon{font-size:22px}
-.bpt-scroll{overflow-x:auto}
+.bpt-scroll{overflow-x:auto;box-shadow:inset -24px 0 12px -12px rgba(0,0,0,0.15)}
 table.bpt{width:100%;border-collapse:collapse;font-size:13.5px}
 table.bpt th{text-align:left;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:2px solid var(--border);background:var(--off);white-space:nowrap}
 table.bpt td{padding:14px 20px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap}
@@ -242,7 +242,7 @@ table.bpt tbody tr:hover td{background:var(--green-pale)}
 .calc-visual svg{max-width:420px;width:100%;height:auto}
 .calc-visual circle{transition:r .35s ease}
 .calc-results{background:var(--off);border-radius:10px;padding:4px;margin-bottom:24px;border:1.5px solid var(--border)}
-.calc-scroll{overflow-x:auto}
+.calc-scroll{overflow-x:auto;box-shadow:inset -24px 0 12px -12px rgba(0,0,0,0.15)}
 table.calc-table{width:100%;border-collapse:collapse;font-size:13.5px}
 table.calc-table th{text-align:left;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:12px 18px}
 table.calc-table td{padding:12px 18px;border-top:1px solid var(--border);font-weight:600}
@@ -819,6 +819,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
         <!-- КОНДИЦИОНЕРЫ -->
         <div class="bpt-section">
           <div class="bpt-head"><span class="bpt-icon">❄️</span> Заправка кондиционеров</div>
+          <div class="bpt-scroll">
           <table class="bpt">
             <thead>
               <tr>
@@ -835,6 +836,7 @@ footer{background:var(--darker);color:rgba(255,255,255,0.5);padding:0}
               <tr><td>Комплексное обслуживание</td><td class="pc hi">от 90 р.</td><td>Диагностика + заправка R134a + фильтр</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
 
       </div>
